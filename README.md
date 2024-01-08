@@ -1,6 +1,6 @@
-# [ObjectFormer for Image Manipulation Detection and Localization](https://arxiv.org/abs/2203.14681)
+# ObjectFormer for Image Manipulation Detection and Localization
 
-Official PyTorch implementation of paper ObjectFormer for Image Manipulation Detection and Localization, CVPR 2022.
+Official PyTorch implementation of [ObjectFormer for Image Manipulation Detection and Localization](https://arxiv.org/abs/2203.14681), CVPR 2022.
 
 ## Training and Evaluation
 
