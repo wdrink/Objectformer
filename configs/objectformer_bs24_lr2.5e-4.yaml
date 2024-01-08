@@ -1,0 +1,63 @@
+NUM_GPUS: 1
+DATALOADER:
+  BATCH_SIZE: 24
+  NUM_WORKERS: 1
+TRAIN:
+  ENABLE: True
+MODEL:
+  MODEL_NAME: ObjectFormer
+  INPLANES: 64
+  PRETRAINED: "./ckpt/imagenet_pre.pth"
+  NUM_LAYERS: [1, 1, 3, 1]
+  NUM_CHS: [96, 192, 384, 768]
+  NUM_STRIDES: [1, 2, 2, 2]
+  NUM_HEADS: [3, 6, 12, 24]
+  NUM_PARTS: [64, 64, 64, 64]
+  PATCH_SIZES: [8, 7, 7, 7]
+  DROP_PATH: 0.1
+  NUM_ENC_HEADS: [1, 3, 6, 12]
+  NUM_CLASSES: 1
+OPTIMIZER:
+  OPTIMIZER_METHOD: sgd
+  BASE_LR: 0.00025
+  EPS: 0.00000001
+  MOMENTUM: 0.9
+DATASET:
+  DATASET_NAME: TamperingDataset
+  ROOT_DIR: path_to_your_data
+  TRAIN_SPLIT: path_to_your_data
+  VAL_SPLIT: path_to_your_data
+  TEST_SPLIT: path_to_your_data
+  RETURN_MASK: True
+  IMG_SIZE: 224
+  TRAIN_AUGMENTATIONS:
+    COMPOSE:
+      [
+        [
+          ColorJitter,
+          RandomBrightnessContrast,
+          HueSaturationValue,
+          CLAHE,
+          RandomGamma,
+          Sharpen
+        ],
+        GaussNoise,
+        HorizontalFlip,
+        ImageCompression,
+        Resize,
+        RandomCrop,
+        Normalize
+      ]
+    RESIZE_PARAMS: [434, 434]
+    RANDOMCROP_PARAMS: [380, 380]
+    ROTATE_PARAMS: [10]
+    COARSEDROPOUT_PARAMS: [10, 10]
+    IMAGECOMPRESSION_PARAMS: [65, 80]
+    NORMALIZE_PARAMS: [[0.485, 0.456, 0.406], [0.229, 0.224, 0.225]]
+  
+  TEST_AUGMENTATIONS:
+    COMPOSE: [Resize, Normalize]
+    RESIZE_PARAMS: [380, 380]
+    NORMALIZE_PARAMS: [[0.485, 0.456, 0.406], [0.229, 0.224, 0.225]]
+
+OUTPUT_DIR: 'objectformer_bs24_lr2.5e-4'
